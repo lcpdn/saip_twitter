@@ -89,3 +89,4 @@ else:
 	print "Nothing new, all seems fine"
 	message="application=\"SAIP\" new_alert=\"none\""
 	syslog_alert(message)
+
