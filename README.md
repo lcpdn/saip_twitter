@@ -6,7 +6,7 @@ Parce que le SAIP, c'est bien, mais c'est pas sur Twitter nativement. Le compte 
 
 On pourra lire ce petit article que j'avais écrit: https://cloud.lcpdn.net/public/blog/cell-broadcast-quel-brodcast/ 
 
-** Ce bot n'est évidemment pas à favoriser aux comptes officiels du Gouvernement, il n'y a aucune garantie de fonctionnement **
+**Ce bot n'est évidemment pas à favoriser aux comptes officiels du Gouvernement, il n'y a aucune garantie de fonctionnement**
 
 Evidemment, il n'y a pas de documentation officielle, on pourra lire ma prose rageuse à ce sujet ici: https://cloud.lcpdn.net/public/blog/application-pour-saip-ou-apis-pour-applications/ 
 
