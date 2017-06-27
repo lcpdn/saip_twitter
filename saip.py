@@ -68,7 +68,7 @@ except:
 
 n=-1
 test=0
-if (new_id!=old_id):
+if ((new_id!=old_id)and(new_data["alerts"][n]["status"]=="ongoing")):
 	try:
 		title=new_data["alerts"][n]["title"]
 		lon=new_data["alerts"][n]["area"]["center"]["lon"]
