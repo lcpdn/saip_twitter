@@ -40,13 +40,18 @@ def syslog_alert(message):
 
 
 #Renaming the old file and importing data
-print "Renaming old files"
+print("Renaming old files")
 os.rename('new.json','old.json')
 #Fetching the new file and importing data
-print "Fetching new data"
-testfile = urllib.URLopener()
-testfile.retrieve("https://3718fa66e6.optimicdn.com/alert_list.txt", "new.json")
-print "Trying to compare the two"
+print("Fetching new data")
+#testfile = urllib.request.urlopen("https://3718fa66e6.optimicdn.com/alert_list.txt", "new.json")
+#testfile.retrieve("https://3718fa66e6.optimicdn.com/alert_list.txt", "new.json")
+file_name="new.json"
+url='https://3718fa66e6.optimicdn.com/alert_list.txt'
+urllib.request.urlretrieve(url, file_name)
+
+
+print("Trying to compare the two")
 
 with open('old.json') as old_file:
     old_data = json.load(old_file)
@@ -58,12 +63,12 @@ with open('new.json') as new_file:
 try:
         old_id=str(old_data["alerts"][-1]["id"])
 except:
-        print "Fail: no alert in this old file"
+        print("Fail: no alert in this old file")
         old_id=0
 try:
         new_id=str(new_data["alerts"][-1]["id"])
 except:
-        print "Fail: no alert in new file"
+        print("Fail: no alert in new file")
         new_id=0
 
 n=-1
@@ -74,19 +79,24 @@ if ((new_id!=old_id)and(new_data["alerts"][n]["status"]=="ongoing")):
 		lon=new_data["alerts"][n]["area"]["center"]["lon"]
 		lat=new_data["alerts"][n]["area"]["center"]["lat"]
 		urlmap="https://maps.googleapis.com/maps/api/staticmap?center="+str(lat)+","+str(lon)+"&zoom=11&size=600x300"
-		print urlmap
+		print(urlmap)
 		titleshort=title[0:114]
 		url=new_data["alerts"][n]["share_urls"]["fr"]
 		comm=agent_info = u' '.join((titleshort, url)).encode('utf-8').strip()
-		message="application=\"SAIP\" new_alert=\"1\" title=\""+str(title.encode('utf-8').strip())+"\" "+"id=\""+str(new_data["alerts"][n]["id"])+"\" "+"category=\""+str(new_data["alerts"][n]["category"])+"\" "+"status=\""+str(new_data["alerts"][n]["status"])+"\" "+"severity=\""+str(new_data["alerts"][n]["severity"])+"\" "+"start_time=\""+str(new_data["alerts"][n]["start_time"])+"\" "+"broadcast_time=\""+str(new_data["alerts"][n]["broadcast_time"])+"\" "+"version=\""+str(new_data["alerts"][n]["version"])+"\" "+"details_fr=\""+str(new_data["alerts"][n]["details"]["fr"].encode('utf-8').strip())+"\" "+"details_en=\""+str(new_data["alerts"][n]["details"]["en"].encode('utf-8').strip())+"\" "+"url_fr=\""+str(new_data["alerts"][n]["share_urls"]["fr"])+"\" "+"url_en=\""+str(new_data["alerts"][n]["share_urls"]["en"])+"\" "+"lon=\""+str(new_data["alerts"][n]["area"]["center"]["lon"])+"\" "+"lat=\""+str(new_data["alerts"][n]["area"]["center"]["lat"])+"\" "
+		message="application=\"SAIP\" new_alert=\"1\" title=\""+str(title.encode('utf-8').strip())+"\" "+"id=\""+str(new_data["alerts"]
+[n]["id"])+"\" "+"category=\""+str(new_data["alerts"][n]["category"])+"\" "+"status=\""+str(new_data["alerts"][n]["status"])+"\" "+"severity=\"
+"+str(new_data["alerts"][n]["severity"])+"\" "+"start_time=\""+str(new_data["alerts"][n]["start_time"])+"\" "+"broadcast_time=\""+str(new_data[
+"alerts"][n]["broadcast_time"])+"\" "+"version=\""+str(new_data["alerts"][n]["version"])+"\" "+"details_fr=\""+str(new_data["alerts"][n]["detai
+ls"]["fr"].encode('utf-8').strip())+"\" "+"details_en=\""+str(new_data["alerts"][n]["details"]["en"].encode('utf-8').strip())+"\" "+"url_fr=\""
++str(new_data["alerts"][n]["share_urls"]["fr"])+"\" "+"url_en=\""+str(new_data["alerts"][n]["share_urls"]["en"])+"\" "+"lon=\""+str(new_data["a
+lerts"][n]["area"]["center"]["lon"])+"\" "+"lat=\""+str(new_data["alerts"][n]["area"]["center"]["lat"])+"\" "
 		syslog_alert(message)
-		print comm
+		print(comm)
 		tweet_image(urlmap, comm)
 	except:
-		print "End"
+		print("End")
 		test=1
 else:
-	print "Nothing new, all seems fine"
+	print("Nothing new, all seems fine")
 	message="application=\"SAIP\" new_alert=\"none\""
 	syslog_alert(message)
-
